@@ -29,7 +29,6 @@ export default function HeroSection({ onOpenDiagnostico }: HeroProps) {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24">
         <div className="max-w-2xl">
           <span className="inline-block rounded-full bg-brand/20 px-4 py-1.5 text-sm font-semibold text-brand">
-            📍 CDMX — Diagnóstico GRATIS
           </span>
 
           <h1 className="mt-6 text-4xl font-extrabold text-navy-foreground sm:text-5xl lg:text-6xl">
