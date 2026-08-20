@@ -1,4 +1,4 @@
-const WA_LINK = "https://wa.me/5514193964?text=Hola%2C%20quiero%20mi%20diagn%C3%B3stico%20GRATIS";
+const WA_LINK = "https://wa.me/525514193964";
 
 export default function FloatingWhatsApp() {
   return (
