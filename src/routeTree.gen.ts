@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestimoniosRouteImport } from './routes/testimonios'
 import { Route as ServiciosRouteImport } from './routes/servicios'
+import { Route as SeprodRouteImport } from './routes/seprod'
 import { Route as Red_confimexRouteImport } from './routes/red_confimex'
 import { Route as QuienesSomosRouteImport } from './routes/quienes-somos'
 import { Route as ErpRouteImport } from './routes/erp'
+import { Route as DigipatronRouteImport } from './routes/digipatron'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TestimoniosRoute = TestimoniosRouteImport.update({
@@ -24,6 +26,11 @@ const TestimoniosRoute = TestimoniosRouteImport.update({
 const ServiciosRoute = ServiciosRouteImport.update({
   id: '/servicios',
   path: '/servicios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeprodRoute = SeprodRouteImport.update({
+  id: '/seprod',
+  path: '/seprod',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Red_confimexRoute = Red_confimexRouteImport.update({
@@ -41,6 +48,11 @@ const ErpRoute = ErpRouteImport.update({
   path: '/erp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DigipatronRoute = DigipatronRouteImport.update({
+  id: '/digipatron',
+  path: '/digipatron',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,26 +61,32 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/digipatron': typeof DigipatronRoute
   '/erp': typeof ErpRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/red_confimex': typeof Red_confimexRoute
+  '/seprod': typeof SeprodRoute
   '/servicios': typeof ServiciosRoute
   '/testimonios': typeof TestimoniosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/digipatron': typeof DigipatronRoute
   '/erp': typeof ErpRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/red_confimex': typeof Red_confimexRoute
+  '/seprod': typeof SeprodRoute
   '/servicios': typeof ServiciosRoute
   '/testimonios': typeof TestimoniosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/digipatron': typeof DigipatronRoute
   '/erp': typeof ErpRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/red_confimex': typeof Red_confimexRoute
+  '/seprod': typeof SeprodRoute
   '/servicios': typeof ServiciosRoute
   '/testimonios': typeof TestimoniosRoute
 }
@@ -76,34 +94,42 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/digipatron'
     | '/erp'
     | '/quienes-somos'
     | '/red_confimex'
+    | '/seprod'
     | '/servicios'
     | '/testimonios'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/digipatron'
     | '/erp'
     | '/quienes-somos'
     | '/red_confimex'
+    | '/seprod'
     | '/servicios'
     | '/testimonios'
   id:
     | '__root__'
     | '/'
+    | '/digipatron'
     | '/erp'
     | '/quienes-somos'
     | '/red_confimex'
+    | '/seprod'
     | '/servicios'
     | '/testimonios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DigipatronRoute: typeof DigipatronRoute
   ErpRoute: typeof ErpRoute
   QuienesSomosRoute: typeof QuienesSomosRoute
   Red_confimexRoute: typeof Red_confimexRoute
+  SeprodRoute: typeof SeprodRoute
   ServiciosRoute: typeof ServiciosRoute
   TestimoniosRoute: typeof TestimoniosRoute
 }
@@ -122,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/servicios'
       fullPath: '/servicios'
       preLoaderRoute: typeof ServiciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seprod': {
+      id: '/seprod'
+      path: '/seprod'
+      fullPath: '/seprod'
+      preLoaderRoute: typeof SeprodRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/red_confimex': {
@@ -145,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/digipatron': {
+      id: '/digipatron'
+      path: '/digipatron'
+      fullPath: '/digipatron'
+      preLoaderRoute: typeof DigipatronRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -157,9 +197,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DigipatronRoute: DigipatronRoute,
   ErpRoute: ErpRoute,
   QuienesSomosRoute: QuienesSomosRoute,
   Red_confimexRoute: Red_confimexRoute,
+  SeprodRoute: SeprodRoute,
   ServiciosRoute: ServiciosRoute,
   TestimoniosRoute: TestimoniosRoute,
 }

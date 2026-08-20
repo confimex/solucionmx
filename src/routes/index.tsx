@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import BenefitsSection from "@/components/BenefitsSection";
 import ObjectionsSection from "@/components/ObjectionsSection";
+import ProductsSection from "@/components/ProductsSection";
 import CtaSection from "@/components/CtaSection";
 import FooterSection from "@/components/FooterSection";
 
@@ -27,6 +28,7 @@ function Index() {
       <main>
         <HeroSection />
         <BenefitsSection />
+        <ProductsSection />
         <ObjectionsSection />
         <CtaSection />
       </main>

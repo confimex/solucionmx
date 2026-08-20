@@ -32,6 +32,30 @@ export default function Navbar() {
           </Link>
 
           <Link
+            to="/digipatron"
+            className="text-sm font-medium text-navy-foreground/70 transition hover:text-brand"
+            activeProps={{ className: "text-sm font-medium text-brand" }}
+          >
+            DigiPatrón
+          </Link>
+
+          <Link
+            to="/seprod"
+            className="text-sm font-medium text-navy-foreground/70 transition hover:text-brand"
+            activeProps={{ className: "text-sm font-medium text-brand" }}
+          >
+            SEPROD
+          </Link>
+
+          <Link
+            to="/red_confimex"
+            className="text-sm font-medium text-navy-foreground/70 transition hover:text-brand"
+            activeProps={{ className: "text-sm font-medium text-brand" }}
+          >
+            Directorio
+          </Link>
+
+          <Link
             to="/quienes-somos"
             className="text-sm font-medium text-navy-foreground/70 transition hover:text-brand"
             activeProps={{ className: "text-sm font-medium text-brand" }}
@@ -100,6 +124,22 @@ export default function Navbar() {
               className="text-navy-foreground/70 hover:text-brand"
             >
               Servicios
+            </Link>
+
+            <Link
+              to="/digipatron"
+              onClick={() => setOpen(false)}
+              className="text-navy-foreground/70 hover:text-brand"
+            >
+              DigiPatrón
+            </Link>
+
+            <Link
+              to="/seprod"
+              onClick={() => setOpen(false)}
+              className="text-navy-foreground/70 hover:text-brand"
+            >
+              SEPROD
             </Link>
 
             <Link
