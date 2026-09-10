@@ -1,35 +1,61 @@
-import { useEffect, useState } from "react";
-import confimexLogo from "./assets/confimex-logo-contacto.png";
+import { useEffect, useMemo, useState } from "react";
+import confimexLogo from "@/assets/confimex-logo-contacto.png";
 
-const WA_LINK = "https://wa.me/525514193964";
+const WA_NUMBER = "525514193964";
+
+type Vista = "inicio" | "ahora" | "despues";
 
 export default function FloatingWhatsApp() {
   const [open, setOpen] = useState(false);
+  const [vista, setVista] = useState<Vista>("inicio");
+  const [nombre, setNombre] = useState("");
+  const [empresa, setEmpresa] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  const cerrar = () => {
+    setOpen(false);
+    setVista("inicio");
+  };
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") cerrar();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const contactarDespues = () => {
-    setOpen(false);
-    window.setTimeout(() => {
-      document.getElementById("contacto")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 80);
+  const waAsesor = useMemo(() => {
+    const texto = encodeURIComponent(
+      "Hola, quiero hablar con un asesor de CONFIMÉX."
+    );
+    return `https://wa.me/${WA_NUMBER}?text=${texto}`;
+  }, []);
+
+  const waDatos = useMemo(() => {
+    const lineas = [
+      "Hola, quiero que un asesor de CONFIMÉX me contacte.",
+      nombre ? `Nombre: ${nombre}` : "",
+      empresa ? `Empresa: ${empresa}` : "",
+      telefono ? `Teléfono / WhatsApp: ${telefono}` : "",
+      mensaje ? `¿En qué pueden ayudarme?: ${mensaje}` : "",
+    ].filter(Boolean);
+
+    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lineas.join("\n"))}`;
+  }, [nombre, empresa, telefono, mensaje]);
+
+  const abrir = () => {
+    setVista("inicio");
+    setOpen(true);
   };
 
   return (
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={abrir}
         aria-label="Opciones de contacto por WhatsApp"
         className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full shadow-2xl transition hover:scale-110 wa-pulse"
         style={{ backgroundColor: "#25D366" }}
@@ -46,65 +72,97 @@ export default function FloatingWhatsApp() {
           aria-modal="true"
           aria-labelledby="confimex-contact-title"
           onMouseDown={(e) => {
-            if (e.target === e.currentTarget) setOpen(false);
+            if (e.target === e.currentTarget) cerrar();
           }}
         >
-          <div className="relative w-full max-w-[580px] rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+          <div className="relative max-h-[92vh] w-full max-w-[590px] overflow-y-auto rounded-2xl bg-background p-6 shadow-2xl sm:p-8">
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={cerrar}
               aria-label="Cerrar"
-              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-2xl leading-none text-slate-700 transition hover:bg-slate-50"
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-border text-2xl leading-none text-foreground transition hover:bg-muted"
             >
               ×
             </button>
 
-            <div className="mb-4 flex items-center gap-3 pr-12">
-              <img
-                src={confimexLogo}
-                alt="CONFIMÉX"
-                className="h-16 w-16 rounded-full object-cover shadow-sm sm:h-20 sm:w-20"
-              />
-              <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-amber-500">
-                  Contacto CONFIMÉX
-                </p>
-                <p className="mt-1 text-sm font-semibold text-slate-500">
-                  Asesoría y capacitación para la confección
-                </p>
-              </div>
-            </div>
+            {vista === "inicio" && (
+              <>
+                <div className="mb-4 flex items-center gap-3 pr-12">
+                  <img src={confimexLogo} alt="CONFIMÉX" className="h-16 w-16 rounded-full object-cover shadow-sm sm:h-20 sm:w-20" />
+                  <div>
+                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brand">Contacto CONFIMÉX</p>
+                    <p className="mt-1 text-sm font-semibold text-muted-foreground">Asesoría y capacitación para la confección</p>
+                  </div>
+                </div>
 
-            <h2 id="confimex-contact-title" className="text-3xl font-black leading-tight text-slate-900 sm:text-4xl">
-              ¿Cómo prefieres que te atendamos?
-            </h2>
-            <p className="mt-3 text-base leading-6 text-slate-500">
-              Elige atención inmediata por WhatsApp o deja tus datos para que un asesor te contacte.
-            </p>
+                <h2 id="confimex-contact-title" className="text-3xl font-black leading-tight text-foreground sm:text-4xl">¿Cómo prefieres que te atendamos?</h2>
+                <p className="mt-3 text-base leading-6 text-muted-foreground">Elige atención inmediata por WhatsApp o deja tus datos para que un asesor te contacte.</p>
 
-            <div className="mt-7 grid gap-4 sm:grid-cols-2">
-              <a
-                href={WA_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
-                className="rounded-xl bg-[#25D366] p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <span className="text-xs font-extrabold uppercase tracking-wide text-white/90">Ahora</span>
-                <strong className="mt-2 block text-xl font-black">Hablar con un asesor</strong>
-                <span className="mt-2 block text-sm font-medium text-white/90">Abrir conversación en WhatsApp.</span>
-              </a>
+                <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                  <button type="button" onClick={() => setVista("ahora")} className="rounded-xl bg-[#25D366] p-5 text-left text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                    <span className="text-xs font-extrabold uppercase tracking-wide text-white/90">Ahora</span>
+                    <strong className="mt-2 block text-xl font-black">Hablar con un asesor</strong>
+                    <span className="mt-2 block text-sm font-medium text-white/90">Iniciar conversación por WhatsApp.</span>
+                  </button>
 
-              <button
-                type="button"
-                onClick={contactarDespues}
-                className="rounded-xl border-2 border-slate-200 bg-slate-50 p-5 text-left text-slate-900 transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-md"
-              >
-                <span className="text-xs font-extrabold uppercase tracking-wide text-amber-500">Después</span>
-                <strong className="mt-2 block text-xl font-black">Quiero que me contacten</strong>
-                <span className="mt-2 block text-sm font-medium text-slate-500">Deja tus datos y te contactamos.</span>
-              </button>
-            </div>
+                  <button type="button" onClick={() => setVista("despues")} className="rounded-xl border-2 border-border bg-card p-5 text-left text-card-foreground transition hover:-translate-y-0.5 hover:border-brand hover:shadow-md">
+                    <span className="text-xs font-extrabold uppercase tracking-wide text-brand">Después</span>
+                    <strong className="mt-2 block text-xl font-black">Quiero que me contacten</strong>
+                    <span className="mt-2 block text-sm font-medium text-muted-foreground">Deja tus datos y te contactamos.</span>
+                  </button>
+                </div>
+              </>
+            )}
+
+            {vista === "ahora" && (
+              <>
+                <button type="button" onClick={() => setVista("inicio")} className="mb-5 text-sm font-bold text-brand hover:underline">← Volver</button>
+                <h2 id="confimex-contact-title" className="pr-12 text-3xl font-black leading-tight text-foreground">Hablar con un asesor</h2>
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.open(waAsesor, "_blank", "noopener,noreferrer");
+                    cerrar();
+                  }}
+                  className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-[#25D366] px-5 py-4 text-center text-sm font-extrabold text-white shadow-sm transition hover:brightness-95"
+                >
+                  CONECTAR CON WHATSAPP
+                </button>
+              </>
+            )}
+
+            {vista === "despues" && (
+              <>
+                <button type="button" onClick={() => setVista("inicio")} className="mb-5 text-sm font-bold text-brand hover:underline">← Volver</button>
+                <h2 id="confimex-contact-title" className="pr-12 text-3xl font-black leading-tight text-foreground">Déjanos tus datos</h2>
+                <p className="mt-2 text-base text-muted-foreground">Un asesor de CONFIMÉX podrá darte seguimiento.</p>
+
+                <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre completo *" className="rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition focus:border-brand" />
+                  <input value={empresa} onChange={(e) => setEmpresa(e.target.value)} placeholder="Empresa" className="rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition focus:border-brand" />
+                  <input value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder="Teléfono / WhatsApp *" className="rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition focus:border-brand sm:col-span-2" />
+                  <textarea value={mensaje} onChange={(e) => setMensaje(e.target.value)} placeholder="¿En qué podemos ayudarte?" rows={4} className="resize-y rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition focus:border-brand sm:col-span-2" />
+                </div>
+
+                <a
+                  href={nombre.trim() && telefono.trim() ? waDatos : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (!nombre.trim() || !telefono.trim()) {
+                      e.preventDefault();
+                      return;
+                    }
+                    cerrar();
+                  }}
+                  aria-disabled={!nombre.trim() || !telefono.trim()}
+                  className={`mt-6 inline-flex w-full items-center justify-center rounded-lg px-5 py-4 text-center text-sm font-extrabold shadow-sm transition ${nombre.trim() && telefono.trim() ? "bg-navy text-navy-foreground hover:brightness-110" : "cursor-not-allowed bg-muted text-muted-foreground"}`}
+                >
+                  ENVIAR MIS DATOS POR WHATSAPP
+                </a>
+                {(!nombre.trim() || !telefono.trim()) && <p className="mt-2 text-center text-xs text-muted-foreground">Completa nombre y WhatsApp para continuar.</p>}
+              </>
+            )}
           </div>
         </div>
       )}
