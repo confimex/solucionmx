@@ -36,11 +36,25 @@ export const Route = createRootRoute({
       { property: "og:description", content: "Digitaliza los patrones de tu taller de confección. Diagnóstico GRATIS en CDMX. Ahorra hasta 40% en tela con tecnología de patronaje digital." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "CONFIMÉX — Patronaje Digital para Talleres de Confección en CDMX" },
       { name: "twitter:description", content: "Digitaliza los patrones de tu taller de confección. Diagnóstico GRATIS en CDMX. Ahorra hasta 40% en tela con tecnología de patronaje digital." },
     ],
     links: [
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/favicon.ico?v=2",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-confimex.png?v=2",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/favicon-confimex.png?v=2",
+      },
       {
         rel: "stylesheet",
         href: appCss,

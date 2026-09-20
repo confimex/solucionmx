@@ -192,6 +192,16 @@ export default function CtaSection() {
 
   };
 
+  /* ---------------- OPEN FROM URL ---------------- */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("diagnostico") === "1") {
+      reset();
+      setOpen(true);
+    }
+  }, []);
+
   /* ---------------- CHECK CITA ---------------- */
   useEffect(() => {
 
